@@ -64,33 +64,13 @@ func nativeGetPortDetails(portPath string) (*PortDetails, error) {
 }
 
 func parseUSBSysFS(usbDevicePath string, details *PortDetails) error {
-	vid, err := readLine(filepath.Join(usbDevicePath, "idVendor"))
-	if err != nil {
-		return err
-	}
-	pid, err := readLine(filepath.Join(usbDevicePath, "idProduct"))
-	if err != nil {
-		return err
-	}
-	serial, err := readLine(filepath.Join(usbDevicePath, "serial"))
-	if err != nil {
-		return err
-	}
-	//manufacturer, err := readLine(filepath.Join(usbDevicePath, "manufacturer"))
-	//if err != nil {
-	//	return err
-	//}
-	//product, err := readLine(filepath.Join(usbDevicePath, "product"))
-	//if err != nil {
-	//	return err
-	//}
-
-	details.IsUSB = true
-	details.VID = vid
-	details.PID = pid
-	details.SerialNumber = serial
-	//details.Manufacturer = manufacturer
-	//details.Product = product
+	details.VID, _ = readLine(filepath.Join(usbDevicePath, "idVendor"))
+	details.PID, _ = readLine(filepath.Join(usbDevicePath, "idProduct"))
+	details.SerialNumber, _ = readLine(filepath.Join(usbDevicePath, "serial"))
+	details.Bus, _ = readLine(filepath.Join(usbDevicePath, "busnum"))
+	details.Device, _ = readLine(filepath.Join(usbDevicePath, "devnum"))
+	details.Manufacturer, _ = readLine(filepath.Join(usbDevicePath, "manufacturer"))
+	details.Product, _ = readLine(filepath.Join(usbDevicePath, "product"))
 	return nil
 }
 
